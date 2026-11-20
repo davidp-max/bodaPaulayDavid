@@ -22,8 +22,6 @@
       --envelope-body: #efe6d8;
       --envelope-flap: #e4d6c1;
       --envelope-shadow: rgba(46, 41, 36, 0.16);
-      --wax-color: #8c3b32;
-      --wax-highlight: #a84c42;
       --font-serif: 'Cormorant Garamond', Georgia, serif;
       --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -253,41 +251,6 @@
       cursor: pointer;
     }
 
-    /* ================= BARRA DE CONTROL SUPERIOR ================= */
-    #top-controls {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 900;
-      display: flex;
-      gap: 8px;
-    }
-
-    .pill-btn {
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border-soft);
-      color: var(--primary-dark);
-      padding: 0.52rem 0.95rem;
-      border-radius: 999px;
-      font-family: var(--font-sans);
-      font-size: 0.74rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      box-shadow: 0 4px 14px rgba(46, 41, 36, 0.08);
-      transition: all 0.2s ease;
-    }
-
-    .pill-btn:hover {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-
     /* Botón flotante música */
     #music-floating-btn {
       position: fixed;
@@ -452,23 +415,6 @@
       max-width: 610px;
       margin: 0 auto 2rem;
       line-height: 1.55;
-    }
-
-    .hero-photo-container {
-      margin: 1.8rem auto 0;
-      max-width: 540px;
-      border-radius: 4px;
-      overflow: hidden;
-      border: 1px solid var(--border-soft);
-      display: none;
-    }
-
-    .hero-photo-container.visible { display: block; }
-    .hero-photo-container img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      display: block;
     }
 
     /* Secciones */
@@ -715,13 +661,19 @@
       color: var(--text-muted);
     }
 
-    /* ================= FORMULARIO DE CONFIRMACIÓN (RSVP) ================= */
+    /* ================= FORMULARIO DE CONFIRMACIÓN (S.R.C. - 7 COLUMNAS) ================= */
     .rsvp-form {
       max-width: 580px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
     }
 
     .form-group {
@@ -756,42 +708,6 @@
       box-shadow: 0 0 0 3px rgba(125, 98, 60, 0.1);
     }
 
-    .attendance-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-
-    .radio-card { position: relative; }
-
-    .radio-card input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .radio-card span {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0.9rem 0.75rem;
-      border: 1px solid rgba(181, 147, 75, 0.4);
-      border-radius: 3px;
-      background: var(--bg-paper);
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .radio-card input:checked + span {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-      font-weight: 600;
-    }
-
     .btn-primary {
       background: var(--primary);
       color: #fff;
@@ -821,22 +737,6 @@
 
     #rsvp-success-box.visible { display: block; }
 
-    .whatsapp-direct-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1.1rem;
-      padding: 0.78rem 1.4rem;
-      background: #25d366;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 3px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
     footer {
       text-align: center;
       padding: 3rem 1rem 1.5rem;
@@ -854,20 +754,23 @@
 
     @media (max-width: 600px) {
       .countdown-grid { grid-template-columns: repeat(2, 1fr); }
-      .attendance-toggle { grid-template-columns: 1fr; }
+      .form-row-2 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Audio MP3 nativo (si subes musica.mp3 a GitHub sonará en iPhone/Android al abrir el sobre) -->
+  <audio id="wedding-mp3-player" src="./musica.mp3" preload="auto" loop playsinline></audio>
+
   <!-- ================= OVERLAY SOBRE CERRADO ================= -->
   <div id="envelope-overlay" role="dialog" aria-label="Abrir invitación de boda">
-    <p class="envelope-prompt-top" id="envelope-top-label">Tienes una invitación especial</p>
+    <p class="envelope-prompt-top">Tienes una invitación especial</p>
     <div class="envelope-stage" id="envelope-stage">
       <div class="envelope-back"></div>
       <div class="envelope-letter-preview">
-        <div class="mini-names" id="envelope-names">Paula &amp; David</div>
-        <div class="mini-date" id="envelope-date">24 · 04 · 2027</div>
+        <div class="mini-names">Paula &amp; David</div>
+        <div class="mini-date">24 · 04 · 2027</div>
       </div>
       <div class="envelope-pocket"></div>
       <div class="envelope-bottom-flap"></div>
@@ -897,21 +800,18 @@
     <section class="hero-section">
       <div class="hero-frame">
         <div class="hero-monogram-wrap" id="hero-logo-slot"></div>
-        <p class="pre-title" id="disp-pretitle">¡Nos Casamos!</p>
+        <p class="pre-title">¡Nos Casamos!</p>
         <h1 class="couple-names">
-          <span id="disp-bride">Paula</span>
+          <span>Paula</span>
           <span class="amp">&amp;</span>
-          <span id="disp-groom">David</span>
+          <span>David</span>
         </h1>
         <div class="hero-divider">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         </div>
-        <p class="wedding-date-display" id="disp-date-text">Sábado, 24 de Abril de 2027</p>
-        <p class="wedding-location-summary" id="disp-city">Zaragoza</p>
-        <p class="welcome-quote" id="disp-quote">«Hay momentos en la vida que son especiales por sí solos, pero compartirlos con las personas que más queremos los convierte en inolvidables.»</p>
-        <div class="hero-photo-container" id="hero-photo-box">
-          <img id="disp-hero-photo" src="" alt="Fotografía de Paula y David" />
-        </div>
+        <p class="wedding-date-display">Sábado, 24 de Abril de 2027</p>
+        <p class="wedding-location-summary">Zaragoza</p>
+        <p class="welcome-quote">«Hay momentos en la vida que son especiales por sí solos, pero compartirlos con las personas que más queremos los convierte en inolvidables.»</p>
       </div>
     </section>
 
@@ -945,10 +845,10 @@
             </svg>
           </div>
           <h3>La Ceremonia</h3>
-          <div class="event-time" id="disp-ceremony-time">11:00 h</div>
-          <div class="event-venue" id="disp-ceremony-venue">Basílica de Santa Engracia</div>
-          <p class="event-address" id="disp-ceremony-address">Plaza de Santa Engracia, s/n, 50004 Zaragoza</p>
-          <a href="https://maps.google.com/?q=Basilica+de+Santa+Engracia+Zaragoza" target="_blank" rel="noopener" class="btn-outline" id="disp-ceremony-map">Ver en Google Maps</a>
+          <div class="event-time">11:00 h</div>
+          <div class="event-venue">Basílica de Santa Engracia</div>
+          <p class="event-address">Plaza de Santa Engracia, s/n, 50004 Zaragoza</p>
+          <a href="https://maps.google.com/?q=Basilica+de+Santa+Engracia+Zaragoza" target="_blank" rel="noopener" class="btn-outline">Ver en Google Maps</a>
         </div>
 
         <div class="event-box">
@@ -960,21 +860,57 @@
             </svg>
           </div>
           <h3>El Banquete</h3>
-          <div class="event-time" id="disp-reception-time">13:30 h</div>
-          <div class="event-venue" id="disp-reception-venue">El Gran Hotel</div>
-          <p class="event-address" id="disp-reception-address">Calle Joaquín Costa, 5, 50001 Zaragoza</p>
-          <a href="https://maps.google.com/?q=Catalonia+El+Pilar+o+El+Gran+Hotel+Calle+Joaquin+Costa+5+Zaragoza" target="_blank" rel="noopener" class="btn-outline" id="disp-reception-map">Ver en Google Maps</a>
+          <div class="event-time">13:30 h</div>
+          <div class="event-venue">El Gran Hotel</div>
+          <p class="event-address">Calle Joaquín Costa, 5, 50001 Zaragoza</p>
+          <a href="https://maps.google.com/?q=Catalonia+El+Pilar+o+El+Gran+Hotel+Calle+Joaquin+Costa+5+Zaragoza" target="_blank" rel="noopener" class="btn-outline">Ver en Google Maps</a>
         </div>
       </div>
     </section>
 
-    <!-- Itinerario -->
+    <!-- Itinerario (4 ítems originales con sus iconos SVG dorados) -->
     <section class="section-card" aria-label="Itinerario del día">
       <div class="section-header">
         <span class="section-eyebrow">Programa del día</span>
         <h2 class="section-title">Itinerario</h2>
       </div>
-      <div class="timeline" id="disp-timeline"></div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="14" r="5"></circle><circle cx="15" cy="14" r="5"></circle><path d="M12 4.5l1.7 1.7-1.7 1.7-1.7-1.7 1.7-1.7z"></path></svg>
+          </div>
+          <div class="timeline-hour">11:00</div>
+          <div class="timeline-title">Ceremonia</div>
+          <div class="timeline-desc">Basílica de Santa Engracia</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h6l-1 7a2.5 2.5 0 0 1-4 0L6 3z"></path><path d="M8.5 12.5V19"></path><path d="M6.5 19h4"></path><path d="M13 5h6l-1 7a2.5 2.5 0 0 1-4 0L13 5z"></path><path d="M15.5 14.5V21"></path><path d="M13.5 21h4"></path></svg>
+          </div>
+          <div class="timeline-hour">13:30</div>
+          <div class="timeline-title">Cóctel de Bienvenida</div>
+          <div class="timeline-desc">El Gran Hotel</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18"></path><path d="M5 17a7 7 0 0 1 14 0"></path><circle cx="12" cy="8" r="1.5"></circle><path d="M2 20h20"></path></svg>
+          </div>
+          <div class="timeline-hour">15:00</div>
+          <div class="timeline-title">Banquete</div>
+          <div class="timeline-desc">Salones de El Gran Hotel</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-icon-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+          </div>
+          <div class="timeline-hour">18:30</div>
+          <div class="timeline-title">Barra Libre y Fiesta</div>
+          <div class="timeline-desc">El Gran Hotel</div>
+        </div>
+      </div>
     </section>
 
     <!-- Detalles útiles -->
@@ -986,175 +922,103 @@
       <div class="details-grid">
         <div class="detail-card">
           <h4>Código de Vestimenta</h4>
-          <p id="disp-dresscode">Etiqueta / Formal. Os animamos a venir elegantes para celebrar juntos este gran día.</p>
+          <p>Etiqueta / Formal. Os animamos a venir elegantes para celebrar juntos este gran día.</p>
         </div>
         <div class="detail-card">
           <h4>Alojamiento y Transporte</h4>
-          <p id="disp-transport">Ambos lugares se encuentran en pleno centro de Zaragoza, a pocos minutos a pie entre sí.</p>
+          <p>Ambos lugares se encuentran en pleno centro de Zaragoza, a pocos minutos a pie entre sí.</p>
         </div>
         <div class="detail-card">
           <h4>Regalo de Bodas</h4>
-          <p id="disp-gift">Vuestra presencia es nuestro mejor regalo. Si deseáis tener un detalle con nosotros, dispondremos de información el día del enlace.</p>
+          <p>Vuestra presencia es nuestro mejor regalo. Si deseáis tener un detalle con nosotros, dispondremos de información el día del enlace.</p>
         </div>
       </div>
     </section>
 
-    <!-- Confirmación de Asistencia (RSVP) -->
+    <!-- Confirmación de Asistencia (S.R.C. - 7 Columnas) -->
     <section class="section-card" id="rsvp-section" aria-label="Confirmar asistencia">
       <div class="section-header">
-        <span class="section-eyebrow">R.S.V.P.</span>
-        <h2 class="section-title" id="disp-rsvp-title">Confirma tu Asistencia</h2>
-        <p style="color:var(--text-muted); font-size:0.92rem; margin-top:0.5rem;" id="disp-rsvp-subtitle">Por favor, confírmanos tu asistencia antes del 1 de Marzo de 2027.</p>
+        <span class="section-eyebrow">S.R.C.</span>
+        <h2 class="section-title">Confirma tu Asistencia</h2>
+        <p style="color:var(--text-muted); font-size:0.92rem; margin-top:0.5rem;">Por favor, confírmanos tu asistencia antes del 28 de Marzo de 2027.</p>
       </div>
 
       <form class="rsvp-form" id="rsvp-form">
         <div class="form-group">
-          <label for="guest-name">Nombre y Apellidos *</label>
-          <input type="text" id="guest-name" class="form-control" placeholder="Ej. Laura García Martínez" required />
+          <label for="guest-name">Nombre Completo *</label>
+          <input type="text" id="guest-name" class="form-control" placeholder="Ej. María García López" required />
         </div>
 
-        <div class="form-group">
-          <label for="guest-contact">Teléfono o Email de contacto</label>
-          <input type="text" id="guest-contact" class="form-control" placeholder="Ej. 600 123 456" />
-        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="guest-attendance">¿Asistirás? *</label>
+            <select id="guest-attendance" class="form-control">
+              <option value="Sí asistirá">¡Sí, allí estaré!</option>
+              <option value="No asistirá">Sintiéndolo mucho, no puedo</option>
+            </select>
+          </div>
 
-        <div class="form-group">
-          <label>¿Podrás acompañarnos? *</label>
-          <div class="attendance-toggle">
-            <label class="radio-card">
-              <input type="radio" name="attendance" value="Sí" checked />
-              <span>¡Sí, allí estaré!</span>
-            </label>
-            <label class="radio-card">
-              <input type="radio" name="attendance" value="No" />
-              <span>Lo siento, no podré asistir</span>
-            </label>
+          <div class="form-group" id="guests-count-group">
+            <label for="guest-companions">Nº de Acompañantes</label>
+            <select id="guest-companions" class="form-control">
+              <option value="1">Solo yo (1)</option>
+              <option value="2">Voy con acompañante (2)</option>
+              <option value="3">3 personas</option>
+              <option value="4">4 personas</option>
+            </select>
           </div>
         </div>
 
-        <div class="form-group" id="guests-count-group">
-          <label for="guest-count">Número total de asistentes (incluyéndote)</label>
-          <select id="guest-count" class="form-control">
-            <option value="1">1 persona</option>
-            <option value="2">2 personas</option>
-            <option value="3">3 personas</option>
-            <option value="4">4 personas</option>
-            <option value="5">5 personas</option>
-            <option value="6">6 personas</option>
-          </select>
-        </div>
-
-        <div class="form-group" id="companions-group">
-          <label for="guest-companions">Nombres de acompañantes (si vienes acompañado/a)</label>
-          <input type="text" id="guest-companions" class="form-control" placeholder="Ej. Carlos Ruiz y Sofía (niña)" />
+        <div class="form-group">
+          <label for="guest-allergies">Intolerancias / Alergias Alimentarias</label>
+          <input type="text" id="guest-allergies" class="form-control" placeholder="Vegetariano, celíaco..." />
         </div>
 
         <div class="form-group">
-          <label for="guest-allergies">Alergias, intolerancias o menú especial</label>
-          <input type="text" id="guest-allergies" class="form-control" placeholder="Ej. Celíaco, vegetariano, alergia a frutos secos..." />
-        </div>
-
-        <div class="form-group">
-          <label for="guest-song">¿Qué canción no puede faltar en la fiesta?</label>
+          <label for="guest-song">Canción preferida</label>
           <input type="text" id="guest-song" class="form-control" placeholder="Título y artista..." />
         </div>
 
         <div class="form-group">
-          <label for="guest-message">Mensaje o dedicatoria para los novios</label>
-          <textarea id="guest-message" rows="3" class="form-control" placeholder="Escríbenos unas palabras..."></textarea>
+          <label for="guest-message">Mensaje</label>
+          <textarea id="guest-message" rows="3" class="form-control" placeholder="Déjanos unas palabras..."></textarea>
         </div>
 
         <button type="submit" class="btn-primary" id="rsvp-submit-btn">Enviar Confirmación</button>
       </form>
 
       <div id="rsvp-success-box">
-        <h3 style="font-family:var(--font-serif); font-size:2rem; color:var(--primary-dark); margin-bottom:0.5rem;">¡Gracias por tu respuesta!</h3>
-        <p style="color:var(--text-muted); font-size:0.95rem;" id="rsvp-success-text">Hemos registrado tu confirmación correctamente.</p>
-        <p id="rsvp-status-msg" style="font-size:0.84rem; color:var(--primary); font-weight:600; margin-top:0.65rem;"></p>
+        <h3 style="font-family:var(--font-serif); font-size:2rem; color:var(--primary-dark); margin-bottom:0.5rem;">¡Muchas Gracias!</h3>
+        <p style="color:var(--text-muted); font-size:0.95rem;">Hemos recibido tu respuesta correctamente.</p>
         <div id="rsvp-summary-card" style="margin:1.25rem auto 0; max-width:440px; text-align:left; background:#fffdf9; border:1px solid var(--border-soft); border-radius:4px; padding:1rem 1.2rem; font-size:0.86rem; color:var(--text-main); line-height:1.6;"></div>
-        <div id="whatsapp-action-area"></div>
         <button type="button" id="rsvp-reset-btn" style="margin-top:1.2rem; background:none; border:none; color:var(--primary); text-decoration:underline; cursor:pointer; font-size:0.82rem;">Enviar otra respuesta</button>
       </div>
     </section>
 
     <footer>
-      <div class="footer-names" id="disp-footer-names">Paula &amp; David</div>
-      <p id="disp-footer-date">24 · 04 · 2027 · Con todo nuestro amor</p>
+      <div class="footer-names">Paula &amp; David</div>
+      <p>24 · 04 · 2027 · Con todo nuestro amor</p>
     </footer>
   </main>
 
   <script>
-    // =========================================================================
-    // CONFIGURACIÓN DE LA INVITACIÓN (PEGA AQUÍ TU URL /EXEC DE APPS SCRIPT)
-    // =========================================================================
-    const EMBEDDED_STATE = {
-      bride: "Paula",
-      groom: "David",
-      pretitle: "¡Nos Casamos!",
-      dateISO: "2027-04-24T11:00",
-      dateText: "Sábado, 24 de Abril de 2027",
-      shortDate: "24 · 04 · 2027",
-      city: "Zaragoza",
-      quote: "«Hay momentos en la vida que son especiales por sí solos, pero compartirlos con las personas que más queremos los convierte en inolvidables.»",
-      ceremonyTime: "11:00 h",
-      ceremonyVenue: "Basílica de Santa Engracia",
-      ceremonyAddress: "Plaza de Santa Engracia, s/n, 50004 Zaragoza",
-      ceremonyMap: "https://maps.google.com/?q=Basilica+de+Santa+Engracia+Zaragoza",
-      receptionTime: "13:30 h",
-      receptionVenue: "El Gran Hotel",
-      receptionAddress: "Calle Joaquín Costa, 5, 50001 Zaragoza",
-      receptionMap: "https://maps.google.com/?q=Catalonia+El+Pilar+o+El+Gran+Hotel+Calle+Joaquin+Costa+5+Zaragoza",
-      itinerary: [
-        { hour: "11:00", title: "Ceremonia", desc: "Basílica de Santa Engracia", icon: "rings" },
-        { hour: "13:30", title: "Cóctel de Bienvenida", desc: "El Gran Hotel", icon: "cocktail" },
-        { hour: "15:00", title: "Banquete", desc: "Salones de El Gran Hotel", icon: "banquet" },
-        { hour: "18:30", title: "Barra Libre y Fiesta", desc: "El Gran Hotel", icon: "party" }
-      ],
-      dresscode: "Etiqueta / Formal. Os animamos a venir elegantes para celebrar juntos este gran día.",
-      transport: "Ambos lugares se encuentran en pleno centro de Zaragoza, a pocos minutos a pie entre sí.",
-      gift: "Vuestra presencia es nuestro mejor regalo. Si deseáis tener un detalle con nosotros, dispondremos de información el día del enlace.",
-      rsvpTitle: "Confirma tu Asistencia",
-      rsvpSubtitle: "Por favor, confírmanos tu asistencia antes del 1 de Marzo de 2027.",
-      whatsapp: "",
-      googleSheetsUrl: "",
-      googleSheetsTab: "Confirmaciones boda",
-      logoData: "",
-      photoData: ""
-    };
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCnkFC9dPsS0cNXPj4V35yyl9tIr3IP8oPiEYpJVU0iNyC7l76MXCfIxEcemWZhpmKRA/exec";
+    const WEDDING_DATE_ISO = "2027-04-24T11:00";
 
-    const state = { ...EMBEDDED_STATE };
-    const STORAGE_KEY_RSVPS = "boda_rsvps_paula_david_v1";
-
-    // =========================================================================
-    // ICONOS VECTORIALES DORADOS DEL ITINERARIO
-    // =========================================================================
-    const ITINERARY_SVGS = {
-      rings: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="14" r="5"></circle><circle cx="15" cy="14" r="5"></circle><path d="M12 4.5l1.7 1.7-1.7 1.7-1.7-1.7 1.7-1.7z"></path></svg>`,
-      cocktail: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h6l-1 7a2.5 2.5 0 0 1-4 0L6 3z"></path><path d="M8.5 12.5V19"></path><path d="M6.5 19h4"></path><path d="M13 5h6l-1 7a2.5 2.5 0 0 1-4 0L13 5z"></path><path d="M15.5 14.5V21"></path><path d="M13.5 21h4"></path></svg>`,
-      banquet: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18"></path><path d="M5 17a7 7 0 0 1 14 0"></path><circle cx="12" cy="8" r="1.5"></circle><path d="M2 20h20"></path></svg>`,
-      party: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`
-    };
-
-    function resolveItineraryIcon(item) {
-      if (item.icon && ITINERARY_SVGS[item.icon]) return ITINERARY_SVGS[item.icon];
-      const text = `${item.title || ""} ${item.desc || ""}`.toLowerCase();
-      if (text.includes("ceremonia") || text.includes("iglesia") || text.includes("basílica")) return ITINERARY_SVGS.rings;
-      if (text.includes("cóctel") || text.includes("coctel") || text.includes("aperitivo")) return ITINERARY_SVGS.cocktail;
-      if (text.includes("banquete") || text.includes("comida") || text.includes("cena")) return ITINERARY_SVGS.banquet;
-      if (text.includes("fiesta") || text.includes("barra") || text.includes("baile")) return ITINERARY_SVGS.party;
-      return ITINERARY_SVGS.rings;
+    function escapeHTML(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
     }
 
     // =========================================================================
     // MONOGRAMA CIRCULAR OFICIAL PAULA & DAVID · 24.04.2027
     // =========================================================================
     function buildMonogramSVG() {
-      const bInitial = (state.bride || "P").trim().charAt(0).toUpperCase();
-      const gInitial = (state.groom || "D").trim().charAt(0).toUpperCase();
-      const namesLabel = `${(state.bride || "PAULA").toUpperCase()} & ${(state.groom || "DAVID").toUpperCase()}`;
-      const dateDigits = (state.shortDate || "24.04.2027").replace(/\s*·\s*/g, ".");
       return `
-        <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-label="Monograma ${namesLabel}">
+        <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-label="Monograma Paula & David">
           <defs>
             <linearGradient id="goldRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#d2b679"/>
@@ -1171,9 +1035,9 @@
             <ellipse cx="110" cy="19.5" rx="5" ry="2.3" fill="#b5934b" fill-opacity="0.35"/>
             <ellipse cx="124" cy="21" rx="4.5" ry="2.2" transform="rotate(18 124 21)" fill="#b5934b" fill-opacity="0.28"/>
           </g>
-          <text x="80" y="109" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="60" font-weight="600" fill="#4a3921">${escapeHTML(bInitial)}</text>
+          <text x="80" y="109" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="60" font-weight="600" fill="#4a3921">P</text>
           <line x1="110" y1="56" x2="110" y2="122" stroke="#b5934b" stroke-width="1.2"/>
-          <text x="140" y="109" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="60" font-weight="600" fill="#4a3921">${escapeHTML(gInitial)}</text>
+          <text x="140" y="109" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="60" font-weight="600" fill="#4a3921">D</text>
           <g fill="none" stroke="#7d623c" stroke-width="1.15" stroke-linecap="round">
             <path d="M 78 134 Q 110 127 142 134" />
             <ellipse cx="90" cy="130" rx="4.2" ry="2" transform="rotate(-18 90 130)" fill="#9e7b3c" fill-opacity="0.32"/>
@@ -1182,39 +1046,35 @@
             <ellipse cx="130" cy="130" rx="4.2" ry="2" transform="rotate(18 130 130)" fill="#9e7b3c" fill-opacity="0.32"/>
             <circle cx="110" cy="131" r="2.2" fill="#b5934b"/>
           </g>
-          <text x="110" y="156" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="11.2" font-weight="600" letter-spacing="2.4" fill="#4a3921">${escapeHTML(namesLabel)}</text>
-          <text x="110" y="176" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="11" font-weight="500" letter-spacing="2.8" fill="#8b6b32">${escapeHTML(dateDigits)}</text>
+          <text x="110" y="156" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="11.2" font-weight="600" letter-spacing="2.4" fill="#4a3921">PAULA &amp; DAVID</text>
+          <text x="110" y="176" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="11" font-weight="500" letter-spacing="2.8" fill="#8b6b32">24.04.2027</text>
         </svg>
       `;
     }
 
-    function renderMonograms() {
+    function initMonograms() {
       const sealBtn = document.getElementById("open-envelope-btn");
       const heroSlot = document.getElementById("hero-logo-slot");
-      if (state.logoData) {
-        const imgTag = `<img src="${state.logoData}" alt="Logotipo ${escapeHTML(state.bride)} y ${escapeHTML(state.groom)}" />`;
+      const svgMarkup = buildMonogramSVG();
+      sealBtn.innerHTML = svgMarkup;
+      heroSlot.innerHTML = svgMarkup;
+
+      const probe = new Image();
+      probe.onload = () => {
+        const imgTag = `<img src="./logo.jpeg" alt="Logotipo Paula y David" />`;
         sealBtn.innerHTML = imgTag;
         heroSlot.innerHTML = imgTag;
-      } else {
-        const svgMarkup = buildMonogramSVG();
-        sealBtn.innerHTML = svgMarkup;
-        heroSlot.innerHTML = svgMarkup;
-        const probe = new Image();
-        probe.onload = () => {
-          if (!state.logoData) {
-            state.logoData = "./logo.jpeg";
-            renderMonograms();
-          }
-        };
-        probe.src = "./logo.jpeg";
-      }
+      };
+      probe.src = "./logo.jpeg";
     }
 
     // =========================================================================
-    // MOTOR DE AUDIO ORQUESTAL DE CÁMARA (COMPATIBLE CON iOS / ANDROID / DESKTOP)
+    // MOTOR DE AUDIO HÍBRIDO (PRIORIZA ./musica.mp3 EN MÓVIL + FALLBACK ORQUESTAL)
     // =========================================================================
-    class ChamberMusicEngine {
+    class WeddingMusicController {
       constructor() {
+        this.mp3 = document.getElementById("wedding-mp3-player");
+        this.useMp3 = true;
         this.ctx = null;
         this.masterGain = null;
         this.isPlaying = false;
@@ -1231,72 +1091,58 @@
           { f: 329.63, d: 1.6, bass: 98.00,  chord: [196.00, 246.94, 329.63] },
           { f: 329.63, d: 1.6, bass: 110.00, chord: [220.00, 277.18, 329.63] }
         ];
+
+        if (this.mp3) {
+          this.mp3.volume = 0.65;
+          this.mp3.addEventListener("error", () => {
+            this.useMp3 = false;
+            if (this.isPlaying && !this.userMuted) {
+              this.startSynth();
+            }
+          });
+        }
       }
 
-      unlockAndInit() {
+      startSynth() {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return false;
+        if (!AudioCtx) return;
         if (!this.ctx) {
           this.ctx = new AudioCtx();
           this.masterGain = this.ctx.createGain();
-          this.masterGain.gain.setValueAtTime(0.24, this.ctx.currentTime);
+          this.masterGain.gain.setValueAtTime(0.28, this.ctx.currentTime);
           this.masterGain.connect(this.ctx.destination);
         }
         if (this.ctx.state === "suspended") {
           this.ctx.resume().catch(() => {});
         }
-        // Pulso silencioso para desbloquear audio en Safari iOS
-        try {
-          const buffer = this.ctx.createBuffer(1, 1, 22050);
-          const src = this.ctx.createBufferSource();
-          src.buffer = buffer;
-          src.connect(this.ctx.destination);
-          src.start(0);
-        } catch (e) {}
-        return true;
+        if (this.timer) clearTimeout(this.timer);
+        this.scheduleStep();
       }
 
       playTone(freq, startTime, duration, type, peakGain) {
         if (!this.ctx || !this.masterGain) return;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        const filter = this.ctx.createBiquadFilter();
-
         osc.type = type;
         osc.frequency.setValueAtTime(freq, startTime);
-
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(type === "sawtooth" ? 950 : 1400, startTime);
-
         gain.gain.setValueAtTime(0.0001, startTime);
-        gain.gain.linearRampToValueAtTime(peakGain, startTime + Math.min(0.22, duration * 0.25));
+        gain.gain.linearRampToValueAtTime(peakGain, startTime + Math.min(0.2, duration * 0.25));
         gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-
-        osc.connect(filter);
-        filter.connect(gain);
+        osc.connect(gain);
         gain.connect(this.masterGain);
-
         osc.start(startTime);
         osc.stop(startTime + duration + 0.05);
       }
 
       scheduleStep() {
         if (!this.isPlaying || !this.ctx) return;
-        if (this.ctx.state === "suspended") {
-          this.ctx.resume().catch(() => {});
-        }
         const now = this.ctx.currentTime + 0.04;
         const note = this.melody[this.step % this.melody.length];
-
-        // Violonchelo solista (grave cálido)
-        this.playTone(note.bass, now, note.d * 1.15, "triangle", 0.28);
-        // Violín lírico (melodía)
-        this.playTone(note.f, now, note.d * 1.1, "sine", 0.22);
-        // Arpegio de cámara
+        this.playTone(note.bass, now, note.d * 1.15, "triangle", 0.30);
+        this.playTone(note.f, now, note.d * 1.1, "sine", 0.24);
         note.chord.forEach((cf, idx) => {
-          this.playTone(cf, now + idx * 0.26, note.d * 0.85, "sine", 0.09);
+          this.playTone(cf, now + idx * 0.26, note.d * 0.85, "sine", 0.10);
         });
-
         this.step++;
         this.timer = setTimeout(() => this.scheduleStep(), note.d * 1000);
       }
@@ -1304,19 +1150,28 @@
       start(forceUnmute = false) {
         if (forceUnmute) this.userMuted = false;
         if (this.userMuted) return;
-        if (!this.unlockAndInit()) return;
-        if (this.isPlaying) {
-          updateMusicUI(true);
-          return;
-        }
         this.isPlaying = true;
         updateMusicUI(true);
-        this.scheduleStep();
+
+        if (this.useMp3 && this.mp3) {
+          const playPromise = this.mp3.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              this.useMp3 = false;
+              this.startSynth();
+            });
+          }
+        } else {
+          this.startSynth();
+        }
       }
 
       stop(byUser = false) {
         if (byUser) this.userMuted = true;
         this.isPlaying = false;
+        if (this.mp3) {
+          try { this.mp3.pause(); } catch (e) {}
+        }
         if (this.timer) {
           clearTimeout(this.timer);
           this.timer = null;
@@ -1333,7 +1188,7 @@
       }
     }
 
-    const musicEngine = new ChamberMusicEngine();
+    const musicEngine = new WeddingMusicController();
 
     function updateMusicUI(isPlaying) {
       const btn = document.getElementById("music-floating-btn");
@@ -1356,12 +1211,6 @@
     document.getElementById("music-floating-btn").addEventListener("click", (e) => {
       e.stopPropagation();
       musicEngine.toggle();
-    });
-
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden && musicEngine.isPlaying && musicEngine.ctx && musicEngine.ctx.state === "suspended") {
-        musicEngine.ctx.resume().catch(() => {});
-      }
     });
 
     // =========================================================================
@@ -1390,75 +1239,15 @@
     const envelopeStage = document.getElementById("envelope-stage");
     const envelopeHint = document.getElementById("envelope-hint-btn");
 
-    sealBtn.addEventListener("pointerdown", triggerOpenEnvelope);
     sealBtn.addEventListener("click", triggerOpenEnvelope);
     envelopeStage.addEventListener("click", triggerOpenEnvelope);
     envelopeHint.addEventListener("click", triggerOpenEnvelope);
 
     // =========================================================================
-    // RENDERIZADO DE LA INVITACIÓN Y CUENTA ATRÁS
+    // CUENTA ATRÁS
     // =========================================================================
-    function escapeHTML(str) {
-      return String(str || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
-
-    function renderInvitation() {
-      document.title = `${state.bride} & ${state.groom} · Nuestra Boda`;
-      document.getElementById("envelope-names").textContent = `${state.bride} & ${state.groom}`;
-      document.getElementById("envelope-date").textContent = state.shortDate;
-      document.getElementById("disp-pretitle").textContent = state.pretitle;
-      document.getElementById("disp-bride").textContent = state.bride;
-      document.getElementById("disp-groom").textContent = state.groom;
-      document.getElementById("disp-date-text").textContent = state.dateText;
-      document.getElementById("disp-city").textContent = state.city;
-      document.getElementById("disp-quote").textContent = state.quote;
-
-      document.getElementById("disp-ceremony-time").textContent = state.ceremonyTime;
-      document.getElementById("disp-ceremony-venue").textContent = state.ceremonyVenue;
-      document.getElementById("disp-ceremony-address").textContent = state.ceremonyAddress;
-      document.getElementById("disp-ceremony-map").href = state.ceremonyMap;
-
-      document.getElementById("disp-reception-time").textContent = state.receptionTime;
-      document.getElementById("disp-reception-venue").textContent = state.receptionVenue;
-      document.getElementById("disp-reception-address").textContent = state.receptionAddress;
-      document.getElementById("disp-reception-map").href = state.receptionMap;
-
-      document.getElementById("disp-dresscode").textContent = state.dresscode;
-      document.getElementById("disp-transport").textContent = state.transport;
-      document.getElementById("disp-gift").textContent = state.gift;
-      document.getElementById("disp-rsvp-title").textContent = state.rsvpTitle;
-      document.getElementById("disp-rsvp-subtitle").textContent = state.rsvpSubtitle;
-      document.getElementById("disp-footer-names").textContent = `${state.bride} & ${state.groom}`;
-      document.getElementById("disp-footer-date").textContent = `${state.shortDate} · Con todo nuestro amor`;
-
-      const photoBox = document.getElementById("hero-photo-box");
-      const photoImg = document.getElementById("disp-hero-photo");
-      if (state.photoData) {
-        photoImg.src = state.photoData;
-        photoBox.classList.add("visible");
-      } else {
-        photoBox.classList.remove("visible");
-      }
-
-      const timelineEl = document.getElementById("disp-timeline");
-      timelineEl.innerHTML = state.itinerary.map(item => `
-        <div class="timeline-item">
-          <div class="timeline-icon-badge">${resolveItineraryIcon(item)}</div>
-          <div class="timeline-hour">${escapeHTML(item.hour)}</div>
-          <div class="timeline-title">${escapeHTML(item.title)}</div>
-          <div class="timeline-desc">${escapeHTML(item.desc)}</div>
-        </div>
-      `).join("");
-
-      renderMonograms();
-    }
-
     function updateCountdown() {
-      const target = new Date(state.dateISO).getTime();
+      const target = new Date(WEDDING_DATE_ISO).getTime();
       const now = Date.now();
       const diff = Math.max(0, target - now);
 
@@ -1474,14 +1263,11 @@
     }
 
     // =========================================================================
-    // FORMULARIO RSVP Y ENVÍO A GOOGLE SHEETS (10 COLUMNAS)
+    // FORMULARIO S.R.C. (7 CAMPOS EXACTOS)
     // =========================================================================
-    document.querySelectorAll('input[name="attendance"]').forEach(radio => {
-      radio.addEventListener("change", () => {
-        const isYes = document.querySelector('input[name="attendance"]:checked').value === "Sí";
-        document.getElementById("guests-count-group").style.display = isYes ? "flex" : "none";
-        document.getElementById("companions-group").style.display = isYes ? "flex" : "none";
-      });
+    document.getElementById("guest-attendance").addEventListener("change", (e) => {
+      const isYes = e.target.value === "Sí asistirá";
+      document.getElementById("guests-count-group").style.display = isYes ? "flex" : "none";
     });
 
     document.getElementById("rsvp-form").addEventListener("submit", async (e) => {
@@ -1490,80 +1276,50 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Enviando...";
 
-      const name = document.getElementById("guest-name").value.trim();
-      const contact = document.getElementById("guest-contact").value.trim();
-      const attendance = document.querySelector('input[name="attendance"]:checked').value;
-      const numPersonas = attendance === "Sí" ? parseInt(document.getElementById("guest-count").value, 10) : 0;
-      const companions = attendance === "Sí" ? document.getElementById("guest-companions").value.trim() : "";
-      const allergies = document.getElementById("guest-allergies").value.trim();
-      const song = document.getElementById("guest-song").value.trim();
-      const message = document.getElementById("guest-message").value.trim();
+      const fecha = new Date().toLocaleString("es-ES");
+      const nombre = document.getElementById("guest-name").value.trim();
+      const asistencia = document.getElementById("guest-attendance").value;
+      const acompanantes = asistencia === "Sí asistirá"
+        ? document.getElementById("guest-companions").value
+        : "0";
+      const alergias = document.getElementById("guest-allergies").value.trim() || "Ninguna";
+      const cancion = document.getElementById("guest-song").value.trim() || "Ninguna";
+      const mensaje = document.getElementById("guest-message").value.trim() || "Sin mensaje";
 
-      const asistenciaTexto = attendance === "Sí"
-        ? `¡Sí, allí estaré! · ${numPersonas} ${numPersonas === 1 ? "persona" : "personas"}`
-        : "Lo siento, no podré asistir";
-
-      const record = {
-        fecha: new Date().toLocaleString("es-ES"),
-        origen: "Invitación Digital",
-        nombre: name,
-        contacto: contact,
-        asistencia: asistenciaTexto,
-        numPersonas: numPersonas,
-        acompanantes: companions,
-        alergias: allergies,
-        cancion: song,
-        mensaje: message
+      const payload = {
+        fecha: fecha,
+        nombre: nombre,
+        asistencia: asistencia,
+        acompanantes: acompanantes,
+        alergias: alergias,
+        cancion: cancion,
+        mensaje: mensaje,
+        Fecha: fecha,
+        Nombre: nombre,
+        Asistencia: asistencia,
+        Acompañantes: acompanantes,
+        Alergias: alergias,
+        Cancion: cancion,
+        Mensaje: mensaje
       };
 
       try {
-        const existing = JSON.parse(localStorage.getItem(STORAGE_KEY_RSVPS) || "[]");
-        existing.push(record);
-        localStorage.setItem(STORAGE_KEY_RSVPS, JSON.stringify(existing));
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
       } catch (err) {}
 
-      const statusMsgEl = document.getElementById("rsvp-status-msg");
-      if (state.googleSheetsUrl && state.googleSheetsUrl.startsWith("http")) {
-        try {
-          await fetch(state.googleSheetsUrl, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify(record)
-          });
-          statusMsgEl.textContent = "✓ Respuesta enviada y registrada para los novios.";
-        } catch (err) {
-          statusMsgEl.textContent = "Respuesta guardada localmente. Si hubo un corte de red, puedes enviarla también por WhatsApp.";
-        }
-      } else {
-        statusMsgEl.textContent = "✓ Respuesta guardada correctamente.";
-      }
-
       document.getElementById("rsvp-summary-card").innerHTML = `
-        <div><strong>Invitado:</strong> ${escapeHTML(name)}${contact ? ` (${escapeHTML(contact)})` : ""}</div>
-        <div><strong>Respuesta:</strong> ${escapeHTML(asistenciaTexto)}</div>
-        ${companions ? `<div><strong>Acompañantes:</strong> ${escapeHTML(companions)}</div>` : ""}
-        ${allergies ? `<div><strong>Alergias / Menú:</strong> ${escapeHTML(allergies)}</div>` : ""}
-        ${song ? `<div><strong>Canción:</strong> ${escapeHTML(song)}</div>` : ""}
-        ${message ? `<div><strong>Mensaje:</strong> ${escapeHTML(message)}</div>` : ""}
+        <div><strong>Nombre:</strong> ${escapeHTML(nombre)}</div>
+        <div><strong>Asistencia:</strong> ${escapeHTML(asistencia)}</div>
+        ${asistencia === "Sí asistirá" ? `<div><strong>Nº de Acompañantes:</strong> ${escapeHTML(acompanantes)}</div>` : ""}
+        <div><strong>Alergias / Menú:</strong> ${escapeHTML(alergias)}</div>
+        <div><strong>Canción:</strong> ${escapeHTML(cancion)}</div>
+        <div><strong>Mensaje:</strong> ${escapeHTML(mensaje)}</div>
       `;
-
-      const waArea = document.getElementById("whatsapp-action-area");
-      const cleanPhone = (state.whatsapp || "").replace(/\D/g, "");
-      if (cleanPhone) {
-        const waText = encodeURIComponent(
-          `¡Hola ${state.bride} y ${state.groom}! Confirmo mi respuesta para vuestra boda:\n` +
-          `• Nombre: ${name}\n` +
-          `• Asistencia: ${asistenciaTexto}\n` +
-          (companions ? `• Acompañantes: ${companions}\n` : "") +
-          (allergies ? `• Alergias/Menú: ${allergies}\n` : "") +
-          (song ? `• Canción: ${song}\n` : "") +
-          (message ? `• Mensaje: ${message}` : "")
-        );
-        waArea.innerHTML = `<a href="https://wa.me/${cleanPhone}?text=${waText}" target="_blank" rel="noopener" class="whatsapp-direct-btn">Enviar también por WhatsApp</a>`;
-      } else {
-        waArea.innerHTML = "";
-      }
 
       document.getElementById("rsvp-form").style.display = "none";
       document.getElementById("rsvp-success-box").classList.add("visible");
@@ -1574,13 +1330,11 @@
     document.getElementById("rsvp-reset-btn").addEventListener("click", () => {
       document.getElementById("rsvp-form").reset();
       document.getElementById("guests-count-group").style.display = "flex";
-      document.getElementById("companions-group").style.display = "flex";
       document.getElementById("rsvp-form").style.display = "flex";
       document.getElementById("rsvp-success-box").classList.remove("visible");
     });
 
-    // Inicialización
-    renderInvitation();
+    initMonograms();
     updateCountdown();
     setInterval(updateCountdown, 1000);
   </script>
